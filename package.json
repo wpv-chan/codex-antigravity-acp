@@ -1,0 +1,17 @@
+{
+  "name": "codex-antigravity-discussion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A local MCP server that brings Gemini 4 Carbon High into Codex discussions through Google Antigravity ACP.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wpv-chan/codex-antigravity-acp.git"
+  },
+  "homepage": "https://github.com/wpv-chan/codex-antigravity-acp#readme",
+  "type": "module",
+  "dependencies": {
+    "@agentclientprotocol/sdk": "2.6.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "4.6.7"
+  }
+}

@@ -1,0 +1,13 @@
+/node_modules/
+/sessions/
+.env
+.env.*
+*.log
+
+# Keep the discussion role in Git and leave runtime workspace files local.
+/workspace/*
+!/workspace/.agents/
+/workspace/.agents/*
+!/workspace/.agents/agents/
+/workspace/.agents/agents/*
+!/workspace/.agents/agents/codex-discussion.md
