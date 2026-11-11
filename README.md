@@ -8,6 +8,8 @@ Codex (CLI / 桌面端) ──stdio MCP──> server.mjs ──ACP v1──> ag
 
 每次发问前，服务都会核对 ACP 会话的模型 `gemini-4-carbon` 与推理档位 `thought_level=high`。两项都匹配后才发送问题。
 
+配套的 **Gemini Skill** 提供桌面端 `/Gemini` 快捷入口，也支持“让 Gemini 看看这个方案”这样的自然语言。
+
 ## 测试环境
 
 已在 Windows 上使用 PowerShell、Node.js `26.13.0` 和 Antigravity CLI `1.5.5` 完成实测。当前实现使用 Windows 命名管道为每个讨论加锁。下面的命令需要本机已安装 Git、Node.js/npm、Antigravity CLI 和 Codex CLI。CLI 注册的 MCP 服务也可在同机的 Codex 桌面端使用。
@@ -59,12 +61,31 @@ tool_timeout_sec = 600
 codex mcp get antigravity
 ```
 
+### 6. 安装 Gemini 快捷入口
+
+在仓库根目录运行下面的 PowerShell 命令，把配套 Skill 安装到当前用户的 Codex 技能目录。
+
+```powershell
+$codexDir = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $HOME '.codex' }
+$skillsDir = Join-Path $codexDir 'skills'
+$target = Join-Path $skillsDir 'gemini'
+if (Test-Path -LiteralPath $target) { throw "已有同名 Skill，请先核对目录 $target" }
+New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null
+Copy-Item -LiteralPath .\skills\gemini -Destination $target -Recurse
+```
+
+- **Codex 桌面端**　在聊天框输入 `/Gemini`，选中候选项 **Gemini**，接着输入问题。以 `/Gemini` 开头的整行聊天文本也可触发同一 Skill。
+- **Codex CLI**　输入 `$gemini 你的问题`，或通过 `/skills` 选择 **Gemini**。
+- **自然语言**　直接说“让 Gemini 评审这个方案”或“你和 Gemini 一起探讨”。同一议题可以交替使用快捷入口和自然语言追问。
+
+Codex 会自动发现新安装的 Skill。若当前窗口尚未显示候选项，可重启 Codex 后再次打开菜单。[Codex 桌面斜杠菜单](https://learn.chatgpt.com/docs/app/slash-commands) · [Codex Skills 文档](https://learn.chatgpt.com/docs/build-skills)
+
 ## 提问与追问
 
-在 Codex 中发起一次方案评审。
+在 Codex 桌面端用快捷入口发起一次方案评审。
 
 ```text
-请让 Gemini 独立评审商品价格的缓存方案。价格缓存十分钟，促销新价要立即生效，缓存策略该怎么设计？
+/Gemini 商品价格缓存十分钟，促销新价要立即生效，缓存策略该怎么设计？
 ```
 
 收到首轮回复后，可在同一议题下继续追问。

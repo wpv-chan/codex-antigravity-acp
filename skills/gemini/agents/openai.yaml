@@ -1,0 +1,13 @@
+interface:
+  display_name: "Gemini"
+  short_description: "向 Gemini 4 Carbon High 提问、追问，或与 Codex 一起评审方案"
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "antigravity"
+      transport: "stdio"
+      description: "The configured local Antigravity MCP server providing the discuss tool."
+
+policy:
+  allow_implicit_invocation: true
